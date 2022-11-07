@@ -1,0 +1,10 @@
+kafka:
+  consumer:
+    default-server:
+      - "localhost:9092"
+    timeout-ms: 10000
+
+  producer:
+    default-server:
+      - "localhost:9092"
+    result-topic: "result"

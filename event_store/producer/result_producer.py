@@ -1,8 +1,9 @@
 import sys
 from kafka import KafkaProducer
+from config import config
 
-DEFAULT_SERVER = "localhost:9092"
-DEFAULT_TOPIC = "result"
+RESULT_SERVER = config['kafka']['producer']['default-server']
+RESULT_TOPIC = config['kafka']['producer']['result-topic']
 
 
 def main(args):
@@ -17,9 +18,9 @@ def main(args):
     publish(producer, topic, key, message)
 
 
-def publish_result(key: str, message: str):
+def publish_to_result(key: str, message: str):
     producer = get_kafka_producer()
-    publish(producer, DEFAULT_TOPIC, key, message)
+    publish(producer, RESULT_TOPIC, key, message)
 
 
 def publish_message(topic: str, key: str, message: str):
@@ -41,7 +42,7 @@ def publish(producer_instance, topic_name, key, value):
 
 def get_kafka_producer(servers=None):
     if servers is None:
-        servers = [DEFAULT_SERVER]
+        servers = RESULT_SERVER
 
     _producer = None
     try:
