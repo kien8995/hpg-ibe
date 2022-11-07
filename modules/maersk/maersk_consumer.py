@@ -1,9 +1,10 @@
 import json
 import sys
-
 import jsonpickle
+
 from kafka import KafkaConsumer
-from types import SimpleNamespace as Namespace
+from event_store.models import ScheduleRequest
+from event_store.models.schedule_response import ScheduleResponse
 from event_store.producer import publish_to_result
 from event_store.consumer import get_kafka_consumer
 from modules.maersk import search_schedules
@@ -27,7 +28,8 @@ def subscribe(consumer_instance: KafkaConsumer):
         for event in consumer_instance:
             key = event.key.decode("utf-8")
             value = event.value.decode("utf-8")
-            data = json.loads(value, object_hook=lambda d: Namespace(**d))
+
+            data = ScheduleRequest.of(value)
 
             print(f"Message Received: {key}: {data.guid}, {data.dep}, {data.arr}, {data.date}, {data.carrier}")
             scheduleRequest = ScheduleRequest()
@@ -36,9 +38,13 @@ def subscribe(consumer_instance: KafkaConsumer):
             scheduleRequest.date = data.date
 
             schedules = search_schedules(scheduleRequest)
-            schedules_json = jsonpickle.encode(schedules, unpicklable=False)
+
+            scheduleResponse = ScheduleResponse()
+
+            schedules_json = jsonpickle.encode(scheduleResponse, unpicklable=False)
             schedules_json_str = json.dumps(schedules_json)
             print(schedules_json_str)
+
             # publish_to_result(key, schedules_json_str)
         consumer_instance.close()
     except Exception as ex:
