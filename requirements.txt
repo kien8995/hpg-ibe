@@ -1,0 +1,11 @@
+petl==1.7.4
+Scrapy==2.5.0
+XlsxWriter==1.4.3
+splinter==0.15.0
+PyVirtualDisplay==2.2
+selenium==3.141.0
+xvfbwrapper==0.2.9
+requests==2.25.1
+requests_futures==1.0.0
+kafka-python==2.0.2
+jsonpickle==2.2.0
