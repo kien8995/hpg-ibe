@@ -1,10 +1,12 @@
 kafka:
   consumer:
     default-server:
-      - "localhost:9092"
+      - "45.119.80.22:9093"
+    group-id: "group_id"
+    auto-offset-reset: "latest"
     timeout-ms: 10000
 
   producer:
     default-server:
-      - "localhost:9092"
+      - "45.119.80.22:9093"
     result-topic: "result"

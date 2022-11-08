@@ -29,7 +29,9 @@ def search_schedules(request: ScheduleRequest) -> ScheduleResponse:
         params=params
     )
 
-    result = ScheduleResponse.of(response.text)
+    result = ScheduleResponse()
+    if response.status_code == 200:
+        result = ScheduleResponse.of(response.text)
 
     return result
 

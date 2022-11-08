@@ -13,7 +13,9 @@ def search_tracking(request: TrackingRequest) -> TrackingResponse:
         headers=headers
     )
 
-    result = TrackingResponse.of(response.text)
+    result = TrackingResponse()
+    if response.status_code == 200:
+        result = TrackingResponse.of(response.text)
 
     return result
 

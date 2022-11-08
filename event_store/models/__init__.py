@@ -1,1 +1,1 @@
-from .schedule_request import ScheduleRequest
+from .schedule_input import ScheduleInput

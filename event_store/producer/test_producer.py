@@ -1,8 +1,5 @@
-import sys
-from config import config
+import uuid
 from event_store.producer import get_kafka_producer, publish
-
-RESULT_TOPIC = config['kafka']['producer']['result-topic']
 
 
 def main(args):
@@ -17,10 +14,14 @@ def main(args):
     publish(producer, topic, key, message)
 
 
-def publish_to_result(key: str, message: str):
-    producer = get_kafka_producer()
-    publish(producer, RESULT_TOPIC, key, message)
-
-
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    guid = str(uuid.uuid4())
+    data = """
+    {
+       "type": "maersk",
+       "dep": "Hanoi",
+       "arr": "Singapore",
+       "date": "2022-10-01"
+    }
+    """
+    main(['search_MAERSK', guid, data])

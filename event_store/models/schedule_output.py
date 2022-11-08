@@ -2,7 +2,7 @@ import json
 from types import SimpleNamespace as Namespace
 
 
-class ScheduleRequest:
+class ScheduleOutput:
     def __init__(self):
         self.type = ""
 
@@ -10,6 +10,6 @@ class ScheduleRequest:
     def of(json_str: str):
         data = json.loads(json_str, object_hook=lambda d: Namespace(**d))
 
-        scheduleConsumer = ScheduleRequest()
+        scheduleResponse = ScheduleOutput()
 
-        return scheduleConsumer
+        return scheduleResponse
