@@ -1,13 +1,17 @@
 import json
 from types import SimpleNamespace as Namespace
 
+from event_store.models.base_model import BaseModel
 
-class ScheduleInput:
+
+class ScheduleInput(BaseModel):
     def __init__(self):
+        super().__init__()
         self.type = ""
         self.dep = ""
         self.arr = ""
         self.date = ""
+        self.number_of_weeks = 4
 
     @staticmethod
     def of(json_str: str):
@@ -18,5 +22,6 @@ class ScheduleInput:
         scheduleInput.dep = data.dep
         scheduleInput.arr = data.arr
         scheduleInput.date = data.date
+        scheduleInput.number_of_weeks = data.number_of_weeks
 
         return scheduleInput

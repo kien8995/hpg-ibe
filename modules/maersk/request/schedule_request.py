@@ -11,5 +11,5 @@ class ScheduleRequest:
         self.vessel_flag = None
         self.cargo_type = ""
         self.container_type = ""
-        self.container_length = 0
+        self.container_length = 40
         self.brand_code = "maeu"

@@ -1,15 +1,15 @@
-import json
-from types import SimpleNamespace as Namespace
+from event_store.models.base_model import BaseModel
+from event_store.models.location import Location
 
 
-class ScheduleOutput:
+class ScheduleOutput(BaseModel):
     def __init__(self):
+        super().__init__()
         self.type = ""
+        self.schedules: list[ScheduleOutput.Schedule] = []
 
-    @staticmethod
-    def of(json_str: str):
-        data = json.loads(json_str, object_hook=lambda d: Namespace(**d))
-
-        scheduleResponse = ScheduleOutput()
-
-        return scheduleResponse
+    class Schedule:
+        def __init__(self):
+            self.transit_time = ""
+            self.from_departure: Location = Location()
+            self.to_destination: Location = Location()

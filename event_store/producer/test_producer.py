@@ -19,9 +19,10 @@ if __name__ == "__main__":
     data = """
     {
        "type": "maersk",
-       "dep": "Hanoi",
-       "arr": "Singapore",
-       "date": "2022-10-01"
+       "dep": "2GZ03V8AX8T5O",
+       "arr": "3AJMN274REBUN",
+       "date": "2022-09-05",
+       "number_of_weeks": 5
     }
     """
     main(['search_MAERSK', guid, data])
