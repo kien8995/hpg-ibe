@@ -26,16 +26,17 @@ def print_consumer_value_from_beginning(topics: list[str] = None):
             'auto.offset.reset': 'earliest'}
 
     consumer = Consumer(conf)
-
+    print(RESULT_TOPIC)
     if topics is None:
-        topics = RESULT_TOPIC
+        topics = [RESULT_TOPIC]
 
     try:
         consumer.subscribe(topics)
 
         while True:
             msg = consumer.poll(timeout=1.0)
-            if msg is None: continue
+            if msg is None:
+                continue
 
             if msg.error():
                 if msg.error().code() == KafkaError._PARTITION_EOF:

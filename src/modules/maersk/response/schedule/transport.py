@@ -1,4 +1,3 @@
-import json
 from typing import Any
 
 from modules.maersk.response.schedule.vessel import Vessel
