@@ -1,10 +1,11 @@
 FROM python:3.9.15
+
 RUN mkdir /app
+
+WORKDIR /app
 
 COPY ./src /app
 COPY ./requirements.txt /app
-
-WORKDIR /app
 
 ENV PYTHONPATH /app
 
