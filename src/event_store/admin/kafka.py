@@ -8,25 +8,35 @@ DEFAULT_SERVER = config['kafka']['producer']['default-server']
 RESULT_TOPIC = config['kafka']['producer']['result-topic']
 
 
-def get_list_topics():
-    admin_client = AdminClient({"bootstrap.servers": ','.join(DEFAULT_SERVER)})
+def get_list_topics(admin_client: AdminClient):
     return admin_client.list_topics().topics
 
 
-def create_new_topic(topic_name: str):
-    admin_client = AdminClient({"bootstrap.servers": ','.join(DEFAULT_SERVER)})
-    topic_list = [NewTopic("search_maersk", 1, 1)]
+def create_new_topic(admin_client: AdminClient, topic_name: str):
+    topic_list = [NewTopic(topic_name, 1, 1)]
     admin_client.create_topics(topic_list)
 
 
-def print_consumer_value_from_beginning(topics: list[str] = None):
-    conf = {'bootstrap.servers': ','.join(DEFAULT_SERVER),
-            'group.id': "foo",
-            'enable.auto.commit': False,
-            'auto.offset.reset': 'earliest'}
+def create_new_topics(admin_client: AdminClient, topic_names: list[str]):
+    topic_list = []
+    for index, val in enumerate(topic_names):
+        topic_list.append(NewTopic(val, 1, 1))
+    admin_client.create_topics(topic_list)
 
-    consumer = Consumer(conf)
-    print(RESULT_TOPIC)
+
+def delete_topics(admin_client: AdminClient, topic_names: list[str]):
+    fs = admin_client.delete_topics(topic_names, operation_timeout=30)
+
+    # Wait for operation to finish.
+    for topic, f in fs.items():
+        try:
+            f.result()  # The result itself is None
+            print("Topic {} deleted".format(topic))
+        except Exception as e:
+            print("Failed to delete topic {}: {}".format(topic, e))
+
+
+def print_consumer_value(consumer: Consumer, topics: list[str] = None):
     if topics is None:
         topics = [RESULT_TOPIC]
 
@@ -53,5 +63,13 @@ def print_consumer_value_from_beginning(topics: list[str] = None):
 
 
 if __name__ == "__main__":
-    # print(get_list_topics())
-    print_consumer_value_from_beginning()
+    # admin_client = AdminClient({"bootstrap.servers": ','.join(DEFAULT_SERVER)})
+    # print(get_list_topics(admin_client))
+
+    conf = {'bootstrap.servers': ','.join(DEFAULT_SERVER),
+            'group.id': "foo",
+            'enable.auto.commit': False,
+            'auto.offset.reset': 'earliest'}
+    consumer = Consumer(conf)
+
+    print_consumer_value(consumer)
