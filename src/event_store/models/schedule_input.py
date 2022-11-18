@@ -22,6 +22,7 @@ class ScheduleInput(BaseModel):
         scheduleInput.dep = data.dep
         scheduleInput.arr = data.arr
         scheduleInput.date = data.date
-        scheduleInput.number_of_weeks = data.number_of_weeks
+        if hasattr(data, 'number_of_weeks'):
+            scheduleInput.number_of_weeks = data.number_of_weeks
 
         return scheduleInput
