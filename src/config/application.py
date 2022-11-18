@@ -8,6 +8,6 @@ except ImportError:
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-config: dict = load(open(f"{ROOT_DIR}/config.yml"), Loader=Loader)
+app_config: dict = load(open(f"{ROOT_DIR}/application.yml"), Loader=Loader)
 
-config_str = dump(config, Dumper=Dumper)
+app_config_str = dump(app_config, Dumper=Dumper)

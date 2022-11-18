@@ -1,9 +1,9 @@
 from kafka import KafkaConsumer
-from config import config
+from config import app_config
 
-DEFAULT_SERVER = config['kafka']['consumer']['default-server']
-CONSUMER_TIMEOUT_MS = config['kafka']['consumer']['timeout-ms']
-CONSUMER_AUTO_OFFSET_RESET = config['kafka']['consumer']['auto-offset-reset']
+DEFAULT_SERVER = app_config['kafka']['consumer']['default-server']
+CONSUMER_TIMEOUT_MS = app_config['kafka']['consumer']['timeout-ms']
+CONSUMER_AUTO_OFFSET_RESET = app_config['kafka']['consumer']['auto-offset-reset']
 
 
 def get_kafka_consumer(topic_name: str, servers: list[str] = None):

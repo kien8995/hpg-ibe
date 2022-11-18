@@ -1,8 +1,8 @@
 import sys
-from config import config
+from config import app_config
 from event_store.producer import get_kafka_producer, publish
 
-RESULT_TOPIC = config['kafka']['producer']['result-topic']
+RESULT_TOPIC = app_config['kafka']['producer']['result-topic']
 
 
 def main(args):

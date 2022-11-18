@@ -7,8 +7,7 @@ from kafka import KafkaConsumer
 from constants import ShippingCompany
 from event_store.models import ScheduleInput
 from event_store.models.schedule_output import ScheduleOutput
-from event_store.producer import publish_to_result
-from event_store.consumer import get_kafka_consumer
+from event_store import get_kafka_consumer, publish_to_result
 from modules.maersk import search_schedules
 from modules.maersk.request.schedule_request import ScheduleRequest
 from modules.maersk.response.schedule.schedule_response import ScheduleResponse

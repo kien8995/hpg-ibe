@@ -1,7 +1,7 @@
 from kafka import KafkaProducer
-from config import config
+from config import app_config
 
-DEFAULT_SERVER = config['kafka']['producer']['default-server']
+DEFAULT_SERVER = app_config['kafka']['producer']['default-server']
 
 
 def publish_message(topic: str, key: str, message: str):

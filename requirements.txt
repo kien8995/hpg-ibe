@@ -11,3 +11,4 @@ kafka-python==2.0.2
 confluent-kafka==1.9.2
 jsonpickle==2.2.0
 PyYAML==6.0
+loguru==0.6.0

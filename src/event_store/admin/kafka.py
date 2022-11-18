@@ -2,10 +2,10 @@ import sys
 
 from confluent_kafka import Consumer, KafkaException, KafkaError
 from confluent_kafka.admin import AdminClient, NewTopic
-from config import config
+from config import app_config
 
-DEFAULT_SERVER = config['kafka']['producer']['default-server']
-RESULT_TOPIC = config['kafka']['producer']['result-topic']
+DEFAULT_SERVER = app_config['kafka']['producer']['default-server']
+RESULT_TOPIC = app_config['kafka']['producer']['result-topic']
 
 
 def get_list_topics(admin_client: AdminClient):
