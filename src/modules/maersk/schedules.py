@@ -1,7 +1,7 @@
 import requests
 
-from modules.maersk.request.schedule_request import ScheduleRequest
-from modules.maersk.response.schedule.schedule_response import ScheduleResponse
+from modules.maersk.request import ScheduleRequest
+from modules.maersk.response import ScheduleResponse
 
 
 def search_schedules(request: ScheduleRequest) -> ScheduleResponse:

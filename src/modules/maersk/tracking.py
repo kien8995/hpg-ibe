@@ -1,7 +1,7 @@
 import requests
 
-from modules.maersk.request.tracking_request import TrackingRequest
-from modules.maersk.response.tracking.tracking_response import TrackingResponse
+from modules.maersk.request import TrackingRequest
+from modules.maersk.response.tracking import TrackingResponse
 
 
 def search_tracking(request: TrackingRequest) -> TrackingResponse:

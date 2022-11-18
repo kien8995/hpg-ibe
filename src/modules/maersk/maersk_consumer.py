@@ -5,12 +5,11 @@ import jsonpickle
 
 from kafka import KafkaConsumer
 from constants import ShippingCompany
-from event_store.models import ScheduleInput
-from event_store.models.schedule_output import ScheduleOutput
+from event_store.models import ScheduleInput, ScheduleOutput
 from event_store import get_kafka_consumer, publish_to_result
 from modules.maersk import search_schedules
-from modules.maersk.request.schedule_request import ScheduleRequest
-from modules.maersk.response.schedule.schedule_response import ScheduleResponse
+from modules.maersk.request import ScheduleRequest
+from modules.maersk.response import ScheduleResponse
 from utils.json_util import is_json
 
 DEFAULT_TOPIC = "search_MAERSK"
@@ -74,7 +73,7 @@ def subscribe(consumer: KafkaConsumer):
 
 def _map_schedules_to_output(schedules: ScheduleResponse) -> ScheduleOutput:
     schedule_output = ScheduleOutput()
-    schedule_output.type = ShippingCompany.MAERSK.value
+    schedule_output.type = ShippingCompany.MAERSK
 
     for index, val in enumerate(schedules.schedules):
         schedule = ScheduleOutput.Schedule()
