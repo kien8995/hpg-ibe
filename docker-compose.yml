@@ -4,3 +4,7 @@ services:
     build:
       context: .
       dockerfile: docker/maersk.Dockerfile
+  msc-consumer:
+    build:
+      context: .
+      dockerfile: docker/msc.Dockerfile
