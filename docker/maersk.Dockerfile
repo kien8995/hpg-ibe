@@ -18,4 +18,4 @@ RUN apt-get update && \
 
 RUN pip install -r requirements.txt
 
-CMD [ "python", "modules/maersk/maersk_consumer.py" ]
+CMD [ "python", "modules/maersk/kafka_consumer.py" ]
