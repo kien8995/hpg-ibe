@@ -72,7 +72,7 @@ def subscribe(consumer: KafkaConsumer):
 
 def _map_schedules_to_output(schedules: ScheduleResponse) -> ScheduleOutput:
     schedule_output = ScheduleOutput()
-    schedule_output.type = ShippingCompany.MSC
+    schedule_output.type = str(ShippingCompany.MSC)
 
     for index, val in enumerate(schedules.schedules):
         schedule = ScheduleOutput.Schedule()
