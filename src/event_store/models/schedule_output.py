@@ -1,8 +1,8 @@
-from event_store.models.base_model import BaseModel
+from event_store.models.base_message import BaseMessage
 from event_store.models.location import Location
 
 
-class ScheduleOutput(BaseModel):
+class ScheduleOutput(BaseMessage):
     def __init__(self):
         super().__init__()
         self.type = ""

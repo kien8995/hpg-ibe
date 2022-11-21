@@ -1,10 +1,10 @@
 import json
 from types import SimpleNamespace as Namespace
 
-from event_store.models.base_model import BaseModel
+from event_store.models.base_message import BaseMessage
 
 
-class ScheduleInput(BaseModel):
+class ScheduleInput(BaseMessage):
     def __init__(self):
         super().__init__()
         self.type = ""
