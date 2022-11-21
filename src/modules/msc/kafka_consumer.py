@@ -1,6 +1,5 @@
 import json
 import sys
-import uuid
 import jsonpickle
 
 from kafka import KafkaConsumer
@@ -48,7 +47,7 @@ def subscribe(consumer: KafkaConsumer):
 
                     data = ScheduleInput.of(value)
 
-                    print(f"Message Received: {key}: {data.type}, {data.dep}, {data.arr}, {data.date}")
+                    # print(f"Message Received: {key}: {data.type}, {data.dep}, {data.arr}, {data.date}")
 
                     scheduleRequest = ScheduleRequest()
                     scheduleRequest.from_port_id = data.dep
@@ -62,8 +61,7 @@ def subscribe(consumer: KafkaConsumer):
                     schedules_json_str = json.dumps(schedules_json)
                     # print(schedules_json_str)
 
-                    guid = str(uuid.uuid4())
-                    publish_to_result(guid, schedules_json_str)
+                    publish_to_result(DEFAULT_TOPIC, schedules_json_str)
         except Exception as ex:
             print('Exception in subscribing')
             print(str(ex))
