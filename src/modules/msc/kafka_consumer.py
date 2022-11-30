@@ -61,7 +61,7 @@ def subscribe(consumer: KafkaConsumer):
                     schedules_json_str = json.dumps(schedules_json)
                     # print(schedules_json_str)
 
-                    publish_to_result(DEFAULT_TOPIC, schedules_json_str)
+                    publish_to_result(key, schedules_json_str)
         except Exception as ex:
             print('Exception in subscribing')
             print(str(ex))
