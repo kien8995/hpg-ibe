@@ -3,6 +3,8 @@ import sys
 import jsonpickle
 
 from kafka import KafkaConsumer
+
+from config import app_config
 from constants import ShippingCompany
 from event_store.models import ScheduleInput, ScheduleOutput
 from event_store import get_kafka_consumer, publish_to_result
@@ -11,7 +13,8 @@ from modules.msc.request import ScheduleRequest
 from modules.msc.response import ScheduleResponse
 from utils.json_util import is_json
 
-DEFAULT_TOPIC = "search_MSC"
+DEFAULT_TOPIC = app_config['modules']['msc']['consumer-topic']
+POLL_TIMEOUT_MS = app_config['modules']['msc']['poll-timeout-ms']
 
 
 def main(args: list[str]):
@@ -30,7 +33,7 @@ def main(args: list[str]):
 def subscribe(consumer: KafkaConsumer):
     while True:
         try:
-            message_pack = consumer.poll(timeout_ms=500)
+            message_pack = consumer.poll(timeout_ms=POLL_TIMEOUT_MS)
 
             for tp, messages in message_pack.items():
                 for message in messages:

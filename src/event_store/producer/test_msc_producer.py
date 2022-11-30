@@ -1,5 +1,9 @@
 import uuid
+
+from config import app_config
 from event_store.producer import get_kafka_producer, publish
+
+DEFAULT_TOPIC = app_config['modules']['msc']['consumer-topic']
 
 
 def main(args):
@@ -24,4 +28,4 @@ if __name__ == "__main__":
        "date": "2022-11-16"
     }
     """
-    main(['search_MSC', guid, data])
+    main([DEFAULT_TOPIC, guid, data])

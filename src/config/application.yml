@@ -10,3 +10,15 @@ kafka:
     default-server:
       - "45.119.80.22:9093"
     result-topic: "result"
+
+modules:
+  maersk:
+    consumer-topic: "search_MAERSK"
+    poll-timeout-ms: 500
+  msc:
+    consumer-topic: "search_MSC"
+    poll-timeout-ms: 500
+  oocl:
+    consumer-topic: "search_OOCL"
+    poll-timeout-ms: 500
+    app-key: "1dc597b617744cb49c97e20b523931e1"

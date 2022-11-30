@@ -1,5 +1,9 @@
 import uuid
+
+from config import app_config
 from event_store.producer import get_kafka_producer, publish
+
+DEFAULT_TOPIC = app_config['modules']['oocl']['consumer-topic']
 
 
 def main(args):
@@ -25,4 +29,4 @@ if __name__ == "__main__":
        "number_of_weeks": "4"
     }
     """
-    main(['search_OOCL', guid, data])
+    main([DEFAULT_TOPIC, guid, data])

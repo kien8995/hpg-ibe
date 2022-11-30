@@ -2,8 +2,11 @@ import json
 
 import requests
 
+from config import app_config
 from modules.oocl.request import ScheduleRequest
 from modules.oocl.response import ScheduleResponse
+
+APP_KEY = DEFAULT_TOPIC = app_config['modules']['oocl']['app-key']
 
 
 def get_cs_token(app_key: str) -> str:
@@ -29,8 +32,7 @@ def get_cs_token(app_key: str) -> str:
 
 
 def search_schedules(request: ScheduleRequest) -> ScheduleResponse:
-    app_key = '1dc597b617744cb49c97e20b523931e1'
-    cs_token = get_cs_token(app_key)
+    cs_token = get_cs_token(APP_KEY)
 
     headers = {
         'Accept': 'application/json, text/plain, */*',
@@ -62,7 +64,7 @@ def search_schedules(request: ScheduleRequest) -> ScheduleResponse:
         'destination': '',
         'showCaptcha': 'false',
         'csToken': cs_token,
-        'appKey': app_key,
+        'appKey': APP_KEY,
         'weeksSymbol': '+',
     }
 
