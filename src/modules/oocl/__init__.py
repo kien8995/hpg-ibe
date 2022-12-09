@@ -1,1 +1,1 @@
-from schedules import search_schedules
+from .schedules import search_schedules
