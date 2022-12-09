@@ -1,10 +1,11 @@
-# This is a sample Python script.
+"""This is a sample Python script.
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
+Press ⌃R to execute it or replace it with your code.
+Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+"""
 
 def print_hi(name):
+    """Printing a string with the name of the person."""
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
 
