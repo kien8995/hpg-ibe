@@ -62,7 +62,8 @@ def subscribe(consumer: KafkaConsumer):
 
                     data = ScheduleInput.of(value)
 
-                    # print(f"Message Received: {key}: {data.type}, {data.dep}, {data.arr}, {data.date}")
+                    # print(f"Message Received: {key}: {data.type}, "
+                    #     "{data.dep}, {data.arr}, {data.date}")
 
                     schedule_request = ScheduleRequest()
                     schedule_request.from_departure = data.dep
@@ -88,7 +89,7 @@ def _map_schedules_to_output(schedules: ScheduleResponse) -> ScheduleOutput:
     schedule_output = ScheduleOutput()
     schedule_output.type = str(ShippingCompany.OOCL)
 
-    for index, val in enumerate(schedules.schedules):
+    for _, val in enumerate(schedules.schedules):
         schedule = ScheduleOutput.Schedule()
         schedule.transit_time = val.transit_time_in_minute
         schedule.from_departure.site_name = val.schedule_details[0].city.name
