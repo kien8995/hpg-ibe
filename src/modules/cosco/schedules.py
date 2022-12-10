@@ -1,26 +1,38 @@
+"""
+    cosco's schedule function
+"""
 import requests
 
 from modules.cosco.request import ScheduleRequest
 from modules.cosco.response import ScheduleResponse
 
 
-def search_schedules(request: ScheduleRequest) -> ScheduleResponse:
+def search_schedules(schedule_request: ScheduleRequest) -> ScheduleResponse:
+    """search schedule
+
+    Args:
+        schedule_request (ScheduleRequest): schedule request
+
+    Returns:
+        ScheduleResponse: schedule response
+    """
     json_data = {
-        'fromDate': request.from_date,
+        'fromDate': schedule_request.from_date,
         'pickup': 'B',
         'delivery': 'B',
         'estimateDate': 'D',
-        'toDate': request.to_date,
-        'originCityUuid': request.origin_city_uuid,
-        'destinationCityUuid': request.destination_city_uuid,
-        'originCity': request.origin_city,
-        'destinationCity': request.destination_city,
+        'toDate': schedule_request.to_date,
+        'originCityUuid': schedule_request.origin_city_uuid,
+        'destinationCityUuid': schedule_request.destination_city_uuid,
+        'originCity': schedule_request.origin_city,
+        'destinationCity': schedule_request.destination_city,
         'cargoNature': 'All',
     }
 
     response = requests.post(
         'https://elines.coscoshipping.com/ebschedule/public/purpoShipmentWs',
         json=json_data,
+        timeout=10
     )
 
     result = ScheduleResponse()

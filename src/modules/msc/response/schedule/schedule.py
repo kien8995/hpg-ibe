@@ -1,3 +1,6 @@
+"""
+    Schedule response model
+"""
 from typing import Any
 
 from modules.msc.response.schedule.location import Location
@@ -5,6 +8,9 @@ from modules.msc.response.schedule.schedule_detail import ScheduleDetail
 
 
 class Schedule:
+    """
+        Schedule model class
+    """
     def __init__(self):
         self.transit_time = ""
         self.transit_time_hours = ""
@@ -19,7 +25,15 @@ class Schedule:
         self.schedule_details: list[ScheduleDetail] = []
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Schedule':
+        """mapping data to Schedule
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Schedule: mapping result
+        """
         schedule = Schedule()
 
         schedule.transit_time = data.TotalTransitTime
@@ -31,9 +45,8 @@ class Schedule:
         schedule.vessel_name = data.VesselName
         schedule.departure_voyage_no = data.DepartureVoyageNo
 
-        for index, val in enumerate(data.RouteScheduleLegDetails):
+        for _, val in enumerate(data.RouteScheduleLegDetails):
             schedule_detail = ScheduleDetail.of(val)
             schedule.schedule_details.append(schedule_detail)
 
         return schedule
-

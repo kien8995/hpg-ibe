@@ -1,3 +1,6 @@
+"""
+    ScheduleDetail response model
+"""
 from typing import Any
 
 from modules.maersk.response.schedule.location import Location
@@ -5,6 +8,9 @@ from modules.maersk.response.schedule.transport import Transport
 
 
 class ScheduleDetail:
+    """
+        ScheduleDetail model class
+    """
     def __init__(self):
         self.carrier_code = ""
         self.routing_type = ""
@@ -15,7 +21,15 @@ class ScheduleDetail:
         self.transport: Transport = Transport()
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'ScheduleDetail':
+        """mapping data to ScheduleDetail
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            ScheduleDetail: mapping result
+        """
         schedule_detail = ScheduleDetail()
         schedule_detail.carrier_code = data.carrierCode
         schedule_detail.routing_type = data.routingType
@@ -26,4 +40,3 @@ class ScheduleDetail:
         schedule_detail.transport = Transport.of(data.transport)
 
         return schedule_detail
-

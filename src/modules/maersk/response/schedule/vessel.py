@@ -1,9 +1,15 @@
+"""
+    Vessel response model
+"""
 from typing import Any
 
 import requests
 
 
 class Vessel:
+    """
+        Vessel model class
+    """
     def __init__(self):
         self.code = ""
         self.name = ""
@@ -17,7 +23,15 @@ class Vessel:
         self.long_name = ""
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Vessel':
+        """mapping data to Vessel
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Vessel: mapping result
+        """
         vessel = Vessel()
         vessel.code = data.code
         vessel.name = data.name
@@ -25,7 +39,8 @@ class Vessel:
         # get vessel detail
         response = requests.request(
             'GET',
-            'https://api.maersk.com/vessels?maerskCode={0}'.format(data.code),
+            f'https://api.maersk.com/vessels?maerskCode={data.code}',
+            timeout=10
         )
         vessel_detail = response.json()
 
@@ -40,4 +55,3 @@ class Vessel:
             vessel.long_name = vessel_detail["longName"]
 
         return vessel
-

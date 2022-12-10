@@ -1,3 +1,6 @@
+"""
+    ScheduleResponse response model
+"""
 import json
 from types import SimpleNamespace as Namespace
 
@@ -9,6 +12,9 @@ def _find_children_(parent, children):
 
 
 class ScheduleResponse:
+    """
+        ScheduleResponse model class
+    """
     def __init__(self):
         self.trace_id = ""
         self.delivery = ""
@@ -28,7 +34,15 @@ class ScheduleResponse:
         self.schedules: list[Schedule] = []
 
     @staticmethod
-    def of(json_str: str):
+    def of(json_str: str) -> 'ScheduleResponse':
+        """convert json string to ScheduleResponse
+
+        Args:
+            json_str (str): json string
+
+        Returns:
+            ScheduleResponse: convert result
+        """
         data = json.loads(json_str, object_hook=lambda d: Namespace(**d))
 
         response = ScheduleResponse()

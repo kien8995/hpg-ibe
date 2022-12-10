@@ -1,3 +1,6 @@
+"""
+    Container response model
+"""
 from typing import Any
 
 from modules.maersk.response.tracking.latest import Latest
@@ -5,6 +8,9 @@ from modules.maersk.response.tracking.location import Location
 
 
 class Container:
+    """
+        Container model class
+    """
     def __init__(self):
         self.container_num = ""
         self.container_size = ""
@@ -17,7 +23,15 @@ class Container:
         self.status = ""
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Container':
+        """mapping data to Container
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Container: mapping result
+        """
         container = Container()
         container.container_num = data.container_num
         container.container_size = data.container_size
@@ -27,7 +41,7 @@ class Container:
         container.latest = Latest.of(data.latest)
 
         if hasattr(data, 'locations'):
-            for index, val in enumerate(data.locations):
+            for _, val in enumerate(data.locations):
                 container.locations.append(Location.of(val))
 
         container.operator = data.operator

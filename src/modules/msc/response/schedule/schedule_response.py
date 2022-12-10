@@ -1,3 +1,6 @@
+"""
+    ScheduleResponse response model
+"""
 import json
 from types import SimpleNamespace as Namespace
 
@@ -5,6 +8,9 @@ from modules.msc.response.schedule.schedule import Schedule
 
 
 class ScheduleResponse:
+    """
+        ScheduleResponse model class
+    """
     def __init__(self):
         self.port_load_id = ""
         self.port_load = ""
@@ -23,7 +29,15 @@ class ScheduleResponse:
         self.schedules: list[Schedule] = []
 
     @staticmethod
-    def of(json_str: str):
+    def of(json_str: str) -> 'ScheduleResponse':
+        """convert json string to ScheduleResponse
+
+        Args:
+            json_str (str): json string
+
+        Returns:
+            ScheduleResponse: convert result
+        """
         data = json.loads(json_str, object_hook=lambda d: Namespace(**d))
 
         response = ScheduleResponse()
@@ -47,7 +61,7 @@ class ScheduleResponse:
         response.is_direct_route = product.IsDirectRoute
         response.routing_type = product.RoutingType
 
-        for index, val in enumerate(product.Routes):
+        for _, val in enumerate(product.Routes):
             schedule = Schedule.of(val)
             schedule.from_location.port_id = product.PortOfLoadId
             schedule.from_location.port_name = product.PortOfLoad
@@ -60,5 +74,3 @@ class ScheduleResponse:
             response.schedules.append(schedule)
 
         return response
-
-

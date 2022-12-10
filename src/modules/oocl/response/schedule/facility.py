@@ -1,7 +1,13 @@
+"""
+    Facility response model
+"""
 from typing import Any
 
 
 class Facility:
+    """
+        Facility model class
+    """
     def __init__(self):
         self.id = ""
         self.type = ""
@@ -9,7 +15,15 @@ class Facility:
         self.name = ""
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Facility':
+        """mapping data to Facility
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Facility: mapping result
+        """
         facility = Facility()
         facility.id = data.ID
         if hasattr(data, 'Type'):

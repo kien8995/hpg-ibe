@@ -1,3 +1,6 @@
+"""
+    app config
+"""
 import os
 from yaml import load, dump
 
@@ -8,6 +11,8 @@ except ImportError:
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-app_config: dict = load(open(f"{ROOT_DIR}/application.yml"), Loader=Loader)
+app_config: dict = {}
+with open(f"{ROOT_DIR}/application.yml", encoding="utf8") as file:
+    app_config = load(file, Loader=Loader)
 
 app_config_str = dump(app_config, Dumper=Dumper)

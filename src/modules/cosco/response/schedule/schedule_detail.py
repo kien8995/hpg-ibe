@@ -1,7 +1,13 @@
+"""
+    ScheduleDetail response model
+"""
 from typing import Any
 
 
 class ScheduleDetail:
+    """
+        ScheduleDetail model class
+    """
     def __init__(self):
         self.component_id = ""
         self.type = ""
@@ -32,7 +38,15 @@ class ScheduleDetail:
         self.external_voyage_reference = ""
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'ScheduleDetail':
+        """mapping data to ScheduleDetail
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            ScheduleDetail: mapping result
+        """
         schedule_detail = ScheduleDetail()
         schedule_detail.component_id = data.ComponentId
         schedule_detail.type = data.Type

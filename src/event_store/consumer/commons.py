@@ -1,3 +1,6 @@
+"""
+    kafka's comsumer common function
+"""
 from kafka import KafkaConsumer
 from config import app_config
 
@@ -6,7 +9,16 @@ CONSUMER_TIMEOUT_MS = app_config['kafka']['consumer']['timeout-ms']
 CONSUMER_AUTO_OFFSET_RESET = app_config['kafka']['consumer']['auto-offset-reset']
 
 
-def get_kafka_consumer(topic_name: str, servers: list[str] = None):
+def get_kafka_consumer(topic_name: str, servers: list[str] = None) -> KafkaConsumer:
+    """get kafka consumer
+
+    Args:
+        topic_name (str): topic name
+        servers (list[str], optional): bootstap servers. Defaults to None.
+
+    Returns:
+        KafkaConsumer: kafka consumer
+    """
     if servers is None:
         servers = DEFAULT_SERVER
 
@@ -20,5 +32,4 @@ def get_kafka_consumer(topic_name: str, servers: list[str] = None):
     except Exception as ex:
         print('Exception while connecting Kafka')
         print(str(ex))
-    finally:
-        return _consumer
+    return _consumer

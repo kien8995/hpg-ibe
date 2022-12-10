@@ -1,16 +1,28 @@
+"""
+    maersk's tracking function
+"""
 import requests
 
 from modules.maersk.request import TrackingRequest
 from modules.maersk.response.tracking import TrackingResponse
 
 
-def search_tracking(request: TrackingRequest) -> TrackingResponse:
+def search_tracking(tracking_request: TrackingRequest) -> TrackingResponse:
+    """tracking data
+
+    Args:
+        request (TrackingRequest): tracking data request
+
+    Returns:
+        TrackingResponse: tracking data response
+    """
     headers = {'User-Agent': 'Mozilla/5.0'}
 
     response = requests.request(
         'GET',
-        'https://api.maersk.com/track/{0}?operator={1}'.format(request.tracking_code, request.operator),
-        headers=headers
+        f'https://api.maersk.com/track/{tracking_request.tracking_code}?operator={tracking_request.operator}',
+        headers=headers,
+        timeout=10
     )
 
     result = TrackingResponse()

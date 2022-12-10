@@ -1,3 +1,6 @@
+"""
+    Location response model
+"""
 import json
 from types import SimpleNamespace as Namespace
 from typing import Any
@@ -6,6 +9,9 @@ import requests
 
 
 class Location:
+    """
+        Location model class
+    """
     def __init__(self):
         self.date = ""
         self.time = ""
@@ -24,7 +30,15 @@ class Location:
         self.un_loc_code = ""
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Location':
+        """mapping data to Location
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Location: mapping result
+        """
         location = Location()
         location.date = data.date
         location.time = data.time
@@ -32,7 +46,8 @@ class Location:
         # get location detail
         response = requests.request(
             'GET',
-            'https://api.maersk.com/locations/{0}'.format(data.siteGeoId),
+            f'https://api.maersk.com/locations/{data.siteGeoId}',
+            timeout=10
         )
         location_detail = json.loads(response.text, object_hook=lambda d: Namespace(**d))
 
@@ -51,4 +66,3 @@ class Location:
         location.un_loc_code = location_detail.unLocCode
 
         return location
-

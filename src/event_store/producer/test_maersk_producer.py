@@ -1,3 +1,6 @@
+"""
+    maersk's test producer
+"""
 import uuid
 
 from config import app_config
@@ -7,11 +10,16 @@ DEFAULT_TOPIC = app_config['modules']['maersk']['consumer-topic']
 
 
 def main(args):
+    """publish kafka message
+
+    Args:
+        args (list[str]): data list
+    """
     try:
         topic = args[0]
         key = args[1]
         message = args[2]
-    except Exception as ex:
+    except Exception as _:
         print("Failed to set topic, key, or message")
 
     producer = get_kafka_producer()
@@ -19,8 +27,8 @@ def main(args):
 
 
 if __name__ == "__main__":
-    guid = str(uuid.uuid4())
-    data = """
+    GUID = str(uuid.uuid4())
+    DATA = """
     {
        "type": "maersk",
        "dep": "2GZ03V8AX8T5O",
@@ -29,4 +37,4 @@ if __name__ == "__main__":
        "number_of_weeks": 5
     }
     """
-    main([DEFAULT_TOPIC, guid, data])
+    main([DEFAULT_TOPIC, GUID, DATA])

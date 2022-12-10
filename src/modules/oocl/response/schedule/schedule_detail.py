@@ -1,3 +1,6 @@
+"""
+    ScheduleDetail response model
+"""
 from typing import Any
 
 from modules.oocl.response.schedule.facility import Facility
@@ -6,6 +9,9 @@ from modules.oocl.response.schedule.transport import Transport
 
 
 class ScheduleDetail:
+    """
+        ScheduleDetail model class
+    """
     def __init__(self):
         self.component_id = ""
         self.type = ""
@@ -44,7 +50,15 @@ class ScheduleDetail:
         self.discharge_port: Port = Port()
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'ScheduleDetail':
+        """mapping data to ScheduleDetail
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            ScheduleDetail: mapping result
+        """
         schedule_detail = ScheduleDetail()
         schedule_detail.component_id = data.ComponentId
         schedule_detail.type = data.Type

@@ -1,7 +1,13 @@
+"""
+    Event response model
+"""
 from typing import Any
 
 
 class Event:
+    """
+        Event model class
+    """
     def __init__(self):
         self.actfor = ""
         self.activity = ""
@@ -15,18 +21,28 @@ class Event:
         self.voyage_num = ""
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Event':
+        """mapping data to Event
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Event: mapping result
+        """
         event = Event()
         event.actfor = data.actfor
         event.activity = data.activity
-        event.actual_time = data.actual_time
-        event.is_cancelled = data.is_cancelled
+        if hasattr(data, 'actual_time'):
+            event.actual_time = data.actual_time
+        if hasattr(data, 'is_cancelled'):
+            event.is_cancelled = data.is_cancelled
         event.is_current = data.is_current
-        event.rkem_move = data.rkem_move
+        if hasattr(data, 'rkem_move'):
+            event.rkem_move = data.rkem_move
         event.stempty = data.stempty
         event.vessel_name = data.vessel_name
         event.vessel_num = data.vessel_num
         event.voyage_num = data.voyage_num
 
         return event
-

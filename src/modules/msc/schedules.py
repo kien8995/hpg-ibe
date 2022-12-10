@@ -1,10 +1,22 @@
+"""
+    msc's schedule function
+"""
 import requests
 
 from modules.msc.request import ScheduleRequest
 from modules.msc.response import ScheduleResponse
 
 
-def search_schedules(request: ScheduleRequest) -> ScheduleResponse:
+def search_schedules(schedule_request: ScheduleRequest) -> ScheduleResponse:
+    """search schedule
+
+    Args:
+        request (ScheduleRequest): request data
+
+    Returns:
+        ScheduleResponse: response data
+    """
+
     cookies = {
         'SC_ANALYTICS_GLOBAL_COOKIE': 'eebaeaddb41d4b0da98b70502e2a2057|False',
         'currentAgency': '2736',
@@ -24,15 +36,19 @@ def search_schedules(request: ScheduleRequest) -> ScheduleResponse:
     }
 
     json_data = {
-        'FromDate': request.from_date,
-        'fromPortId': request.from_port_id,
-        'toPortId': request.to_port_id,
+        'FromDate': schedule_request.from_date,
+        'fromPortId': schedule_request.from_port_id,
+        'toPortId': schedule_request.to_port_id,
         'isDirectRouteOnly': False,
         'language': 'en',
     }
 
-    response = requests.post('https://www.msc.com/api/feature/tools/SearchSailingRoutes', cookies=cookies,
-                             headers=headers, json=json_data)
+    response = requests.post('https://www.msc.com/api/feature/tools/SearchSailingRoutes',
+        cookies=cookies,
+        headers=headers,
+        json=json_data,
+        timeout=10
+    )
 
     result = ScheduleResponse()
     if response.status_code == 200:

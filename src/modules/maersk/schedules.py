@@ -1,32 +1,44 @@
+"""
+    maersk's schedule function
+"""
 import requests
 
 from modules.maersk.request import ScheduleRequest
 from modules.maersk.response import ScheduleResponse
 
 
-def search_schedules(request: ScheduleRequest) -> ScheduleResponse:
+def search_schedules(schedule_request: ScheduleRequest) -> ScheduleResponse:
+    """search schedule
+
+    Args:
+        request (ScheduleRequest): schedule request
+
+    Returns:
+        ScheduleResponse: schedule response
+    """
     headers = {'User-Agent': 'Mozilla/5.0'}
     params = {
-        'from': request.from_departure,
-        'to': request.to_destination,
-        'containerIsoCode': request.container_iso_code,
-        'fromServiceMode': request.from_service_mode,
-        'toServiceMode': request.to_service_mode,
-        'numberOfWeeks': request.number_of_weeks,
-        'dateType': request.date_type,
-        'date': request.date,
-        'vesselFlag': request.vessel_flag,
-        'cargoType': request.cargo_type,
-        'containerType': request.container_type,
-        'containerLength': request.container_length,
-        'brandCode': request.brand_code
+        'from': schedule_request.from_departure,
+        'to': schedule_request.to_destination,
+        'containerIsoCode': schedule_request.container_iso_code,
+        'fromServiceMode': schedule_request.from_service_mode,
+        'toServiceMode': schedule_request.to_service_mode,
+        'numberOfWeeks': schedule_request.number_of_weeks,
+        'dateType': schedule_request.date_type,
+        'date': schedule_request.date,
+        'vesselFlag': schedule_request.vessel_flag,
+        'cargoType': schedule_request.cargo_type,
+        'containerType': schedule_request.container_type,
+        'containerLength': schedule_request.container_length,
+        'brandCode': schedule_request.brand_code
     }
 
     response = requests.request(
         'GET',
         'https://api.maersk.com/oceanProducts/maeu/futureschedules',
         headers=headers,
-        params=params
+        params=params,
+        timeout=10
     )
 
     result = ScheduleResponse()

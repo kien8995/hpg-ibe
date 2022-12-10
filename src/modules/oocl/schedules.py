@@ -93,14 +93,15 @@ def search_schedules(schedule_request: ScheduleRequest) -> ScheduleResponse:
         'weeksSymbol': '+',
     }
 
-    response = requests.post('http://moc.oocl.com/nj_prs_wss/mocss/secured/supportData/nsso/'
-                            'searchHubToHubRoute',
-                             headers=headers, json=json_data, timeout=10)
+    response = requests.post('http://moc.oocl.com/nj_prs_wss/mocss/secured/supportData/nsso/searchHubToHubRoute',
+        headers=headers,
+        json=json_data,
+        timeout=10
+    )
 
     result = ScheduleResponse()
     if response.status_code == 200:
         result = ScheduleResponse.of(response.text)
-        print(response.text)
 
     return result
 

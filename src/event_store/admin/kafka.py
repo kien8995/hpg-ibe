@@ -1,3 +1,6 @@
+"""
+    kafka helper functions
+"""
 import sys
 
 from confluent_kafka import Consumer, KafkaException, KafkaError
@@ -8,35 +11,70 @@ DEFAULT_SERVER = app_config['kafka']['producer']['default-server']
 RESULT_TOPIC = app_config['kafka']['producer']['result-topic']
 
 
-def get_list_topics(admin_client: AdminClient):
+def get_list_topics(admin_client: AdminClient) -> dict:
+    """get list kafka topic
+
+    Args:
+        admin_client (AdminClient): kafka AdminClient instance
+
+    Returns:
+        dict: Map of topics indexed by the topic name. Value is TopicMetadata object.
+    """
     return admin_client.list_topics().topics
 
 
 def create_new_topic(admin_client: AdminClient, topic_name: str):
+    """create new kafka topic
+
+    Args:
+        admin_client (AdminClient): kafka AdminClient instance
+        topic_name (str): topic name
+    """
     topic_list = [NewTopic(topic_name, 1, 1)]
     admin_client.create_topics(topic_list)
 
 
 def create_new_topics(admin_client: AdminClient, topic_names: list[str]):
+    """create new kafka topic
+
+    Args:
+        admin_client (AdminClient): kafka AdminClient instance
+        topic_names (list[str]): list topic name
+    """
     topic_list = []
-    for index, val in enumerate(topic_names):
+    for _, val in enumerate(topic_names):
         topic_list.append(NewTopic(val, 1, 1))
     admin_client.create_topics(topic_list)
 
 
 def delete_topics(admin_client: AdminClient, topic_names: list[str]):
+    """delete kafka topic
+
+    Args:
+        admin_client (AdminClient): kafka AdminClient instance
+        topic_names (list[str]): list topic name
+    """
     fs = admin_client.delete_topics(topic_names, operation_timeout=30)
 
     # Wait for operation to finish.
     for topic, f in fs.items():
         try:
             f.result()  # The result itself is None
-            print("Topic {} deleted".format(topic))
-        except Exception as e:
-            print("Failed to delete topic {}: {}".format(topic, e))
+            print(f"Topic {topic} deleted")
+        except Exception as ex:
+            print(f"Failed to delete topic {topic}: {ex}")
 
 
 def print_consumer_value(consumer: Consumer, topics: list[str] = None):
+    """print kafka consumer value
+
+    Args:
+        consumer (Consumer): kafka consumer
+        topics (list[str], optional): list topic name. Defaults to None.
+
+    Raises:
+        KafkaException: _description_
+    """
     if topics is None:
         topics = [RESULT_TOPIC]
 
@@ -49,10 +87,9 @@ def print_consumer_value(consumer: Consumer, topics: list[str] = None):
                 continue
 
             if msg.error():
-                if msg.error().code() == KafkaError._PARTITION_EOF:
+                if msg.error().code() == KafkaError._PARTITION_EOF: # pylint: disable=protected-access
                     # End of partition event
-                    sys.stderr.write('%% %s [%d] reached end at offset %d\n' %
-                                     (msg.topic(), msg.partition(), msg.offset()))
+                    sys.stderr.write(f'%% {msg.topic()} [{msg.partition()}] reached end at offset {msg.offset()}\n')
                 elif msg.error():
                     raise KafkaException(msg.error())
             else:
@@ -70,6 +107,6 @@ if __name__ == "__main__":
             'group.id': "foo",
             'enable.auto.commit': False,
             'auto.offset.reset': 'earliest'}
-    consumer = Consumer(conf)
+    kafka_consumer = Consumer(conf)
 
-    print_consumer_value(consumer)
+    print_consumer_value(kafka_consumer)

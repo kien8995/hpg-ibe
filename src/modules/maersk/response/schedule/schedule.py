@@ -1,3 +1,6 @@
+"""
+    Schedule response model
+"""
 from typing import Any
 
 from modules.maersk.response.schedule.location import Location
@@ -6,6 +9,9 @@ from modules.maersk.response.schedule.vessel import Vessel
 
 
 class Schedule:
+    """
+        Schedule model class
+    """
     def __init__(self):
         self.transit_time = ""
         self.from_location: Location = Location()
@@ -14,7 +20,15 @@ class Schedule:
         self.schedule_details: list[ScheduleDetail] = []
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Schedule':
+        """mapping data to Schedule
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Schedule: mapping result
+        """
         schedule = Schedule()
 
         schedule.transit_time = data.transitTime
@@ -22,9 +36,8 @@ class Schedule:
         schedule.to_location = Location.of(data.toLocation)
         schedule.vessel = Vessel.of(data.vessel)
 
-        for index, val in enumerate(data.scheduleDetails):
+        for _, val in enumerate(data.scheduleDetails):
             schedule_detail = ScheduleDetail.of(val)
             schedule.schedule_details.append(schedule_detail)
 
         return schedule
-

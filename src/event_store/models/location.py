@@ -1,4 +1,11 @@
+"""
+    Location model
+"""
+
 class Location:
+    """
+        Location model class
+    """
     def __init__(self):
         self.date = ""
         self.time = ""

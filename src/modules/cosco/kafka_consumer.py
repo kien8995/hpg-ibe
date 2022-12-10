@@ -1,3 +1,6 @@
+"""
+    cosco's kafka consumer
+"""
 import json
 import sys
 import jsonpickle
@@ -18,24 +21,33 @@ POLL_TIMEOUT_MS = app_config['modules']['oocl']['poll-timeout-ms']
 
 
 def main(args: list[str]):
-    global topic
+    """get and subscribe kafka topic
+
+    Args:
+        args (list[str]): data list
+    """
     try:
         print(args[0])
-        topic = args[0]
-    except Exception as ex:
+        kafka_topic = args[0]
+    except Exception as _:
         print("Failed to set topic")
 
-    consumer = get_kafka_consumer(topic)
+    consumer = get_kafka_consumer(kafka_topic)
     subscribe(consumer)
     consumer.close()
 
 
 def subscribe(consumer: KafkaConsumer):
+    """subscribe kafka consumer
+
+    Args:
+        consumer (KafkaConsumer): kafka consumer
+    """
     while True:
         try:
             message_pack = consumer.poll(timeout_ms=POLL_TIMEOUT_MS)
 
-            for tp, messages in message_pack.items():
+            for _, messages in message_pack.items():
                 for message in messages:
                     # print("%s:%d:%d: key=%s value=%s" % (tp.topic, tp.partition,
                     #                                      message.offset, message.key,
@@ -52,13 +64,13 @@ def subscribe(consumer: KafkaConsumer):
 
                     # print(f"Message Received: {key}: {data.type}, {data.dep}, {data.arr}, {data.date}")
 
-                    scheduleRequest = ScheduleRequest()
-                    scheduleRequest.from_departure = data.dep
-                    scheduleRequest.to_destination = data.arr
-                    scheduleRequest.date = data.date
-                    scheduleRequest.number_of_weeks = data.number_of_weeks
+                    schedule_request = ScheduleRequest()
+                    schedule_request.from_departure = data.dep
+                    schedule_request.to_destination = data.arr
+                    schedule_request.date = data.date
+                    schedule_request.number_of_weeks = data.number_of_weeks
 
-                    schedules = search_schedules(scheduleRequest)
+                    schedules = search_schedules(schedule_request)
                     schedule_output = _map_schedules_to_output(schedules)
 
                     schedules_json = jsonpickle.encode(schedule_output, unpicklable=False)
@@ -76,7 +88,7 @@ def _map_schedules_to_output(schedules: ScheduleResponse) -> ScheduleOutput:
     schedule_output = ScheduleOutput()
     schedule_output.type = str(ShippingCompany.OOCL)
 
-    for index, val in enumerate(schedules.schedules):
+    for _, val in enumerate(schedules.schedules):
         schedule = ScheduleOutput.Schedule()
         schedule.transit_time = val.transit_time_in_minute
         schedule.from_departure.site_name = val.schedule_details[0].city.name

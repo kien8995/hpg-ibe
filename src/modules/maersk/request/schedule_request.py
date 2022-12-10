@@ -1,4 +1,11 @@
+"""
+    ScheduleRequest request model
+"""
+
 class ScheduleRequest:
+    """
+        ScheduleRequest model class
+    """
     def __init__(self):
         self.from_departure = ""  # cảng đi
         self.to_destination = ""  # cảng đến

@@ -1,7 +1,13 @@
+"""
+    Latest response model
+"""
 from typing import Any
 
 
 class Latest:
+    """
+        Latest model class
+    """
     def __init__(self):
         self.actfor = ""
         self.activity = ""
@@ -14,7 +20,15 @@ class Latest:
         self.stempty = False
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'Latest':
+        """mapping data to Latest
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            Latest: mapping result
+        """
         event = Latest()
         event.actfor = data.actfor
         event.activity = data.activity
@@ -27,4 +41,3 @@ class Latest:
         event.stempty = data.stempty
 
         return event
-

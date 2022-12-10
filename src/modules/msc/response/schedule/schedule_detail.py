@@ -1,9 +1,15 @@
+"""
+    ScheduleDetail response model
+"""
 from typing import Any
 
 from modules.msc.response.schedule.vessel import Vessel
 
 
 class ScheduleDetail:
+    """
+        ScheduleDetail model class
+    """
     def __init__(self):
         self.leg_sequence = 0
         self.single_leg_only = False
@@ -25,7 +31,15 @@ class ScheduleDetail:
         self.vessel: Vessel = Vessel()
 
     @staticmethod
-    def of(data: Any):
+    def of(data: Any) -> 'ScheduleDetail':
+        """mapping data to ScheduleDetail
+
+        Args:
+            data (Any): data object
+
+        Returns:
+            ScheduleDetail: mapping result
+        """
         schedule_detail = ScheduleDetail()
 
         schedule_detail.leg_sequence = data.LegSequence
