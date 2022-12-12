@@ -29,7 +29,9 @@ class Schedule:
         schedule.route_id = data.id
         schedule.transit_time_in_day = data.transitTime
 
-        for _, val in enumerate(data.Legs):
+        schedule_detail = ScheduleDetail.of(data)
+        schedule.schedule_details.append(schedule_detail)
+        for _, val in enumerate(data.legs):
             schedule_detail = ScheduleDetail.of(val)
             schedule.schedule_details.append(schedule_detail)
 

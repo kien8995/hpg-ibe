@@ -7,10 +7,6 @@ from types import SimpleNamespace as Namespace
 from modules.cosco.response.schedule.schedule import Schedule
 
 
-def _find_children_(parent, children):
-    return []
-
-
 class ScheduleResponse:
     """
         ScheduleResponse model class
@@ -72,10 +68,26 @@ class ScheduleResponse:
         parents = list(filter(lambda x: x.id is not None, product))
         children = list(filter(lambda x: x.id is None, product))
 
-        for index, val in enumerate(parents):
-            parents[index].children = _find_children_(val, children)
-        #     schedule = Schedule.of(val)
-        #
-        #     response.schedules.append(schedule)
+        for _, val in enumerate(parents):
+            children_1 = list(filter(lambda x, val=val:
+                                x.transitTime == val.transitTime
+                                and x.cargoNature == val.cargoNature
+                                and x.legSequence > 1, children
+                            )
+                     )
+            children_1.sort(key=lambda x: x.legSequence)
+            result = []
+            for _, e in enumerate(children_1):
+                if not result:
+                    if val.pod == e.pol and e.legSequence == 2:
+                        result.append(e)
+                else:
+                    if result[-1].pod == e.pol and e.legSequence == result[-1].legSequence + 1:
+                        result.append(e)
+            val.legs = result
+
+        for _, val in enumerate(parents):
+            schedule = Schedule.of(val)
+            response.schedules.append(schedule)
 
         return response

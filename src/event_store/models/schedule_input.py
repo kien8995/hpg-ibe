@@ -17,6 +17,8 @@ class ScheduleInput(BaseMessage):
         self.dep = ""
         self.arr = ""
         self.date = ""
+        self.dep_id = ""
+        self.arr_id = ""
         self.number_of_weeks = 4
 
     @staticmethod
@@ -36,6 +38,10 @@ class ScheduleInput(BaseMessage):
         schedule_input.dep = data.dep
         schedule_input.arr = data.arr
         schedule_input.date = data.date
+        if hasattr(data, 'dep_id'):
+            schedule_input.dep_id = data.dep_id
+        if hasattr(data, 'arr_id'):
+            schedule_input.arr_id = data.arr_id
         if hasattr(data, 'number_of_weeks'):
             schedule_input.number_of_weeks = data.number_of_weeks
 

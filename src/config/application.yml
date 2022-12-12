@@ -22,3 +22,6 @@ modules:
     consumer-topic: "search_OOCL"
     poll-timeout-ms: 500
     app-key: "1dc597b617744cb49c97e20b523931e1"
+  cosco:
+    consumer-topic: "search_COSCO"
+    poll-timeout-ms: 500

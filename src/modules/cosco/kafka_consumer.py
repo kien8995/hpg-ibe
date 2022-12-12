@@ -11,13 +11,13 @@ from config import app_config
 from constants import ShippingCompany
 from event_store.models import ScheduleInput, ScheduleOutput
 from event_store import get_kafka_consumer, publish_to_result
-from modules.oocl import search_schedules
-from modules.oocl.request import ScheduleRequest
-from modules.oocl.response import ScheduleResponse
+from modules.cosco import search_schedules
+from modules.cosco.request import ScheduleRequest
+from modules.cosco.response import ScheduleResponse
 from utils.json_util import is_json
 
-DEFAULT_TOPIC = app_config['modules']['oocl']['consumer-topic']
-POLL_TIMEOUT_MS = app_config['modules']['oocl']['poll-timeout-ms']
+DEFAULT_TOPIC = app_config['modules']['cosco']['consumer-topic']
+POLL_TIMEOUT_MS = app_config['modules']['cosco']['poll-timeout-ms']
 
 
 def main(args: list[str]):
@@ -65,10 +65,12 @@ def subscribe(consumer: KafkaConsumer):
                     # print(f"Message Received: {key}: {data.type}, {data.dep}, {data.arr}, {data.date}")
 
                     schedule_request = ScheduleRequest()
-                    schedule_request.from_departure = data.dep
-                    schedule_request.to_destination = data.arr
-                    schedule_request.date = data.date
-                    schedule_request.number_of_weeks = data.number_of_weeks
+                    schedule_request.from_date = data.date
+                    schedule_request.to_date = data.date
+                    schedule_request.origin_city_uuid = data.dep_id
+                    schedule_request.destination_city_uuid = data.arr_id
+                    schedule_request.origin_city = data.dep
+                    schedule_request.destination_city = data.arr
 
                     schedules = search_schedules(schedule_request)
                     schedule_output = _map_schedules_to_output(schedules)
@@ -86,13 +88,13 @@ def subscribe(consumer: KafkaConsumer):
 
 def _map_schedules_to_output(schedules: ScheduleResponse) -> ScheduleOutput:
     schedule_output = ScheduleOutput()
-    schedule_output.type = str(ShippingCompany.OOCL)
+    schedule_output.type = str(ShippingCompany.COSCO)
 
     for _, val in enumerate(schedules.schedules):
         schedule = ScheduleOutput.Schedule()
-        schedule.transit_time = val.transit_time_in_minute
-        schedule.from_departure.site_name = val.schedule_details[0].city.name
-        schedule.to_destination.site_name = val.schedule_details[-1].city.name
+        schedule.transit_time = val.transit_time_in_day
+        schedule.from_departure.site_name = val.schedule_details[0].pol
+        schedule.to_destination.site_name = val.schedule_details[-1].pod
 
         schedule_output.schedules.append(schedule)
 
