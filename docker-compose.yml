@@ -12,3 +12,7 @@ services:
     build:
       context: .
       dockerfile: docker/oocl.Dockerfile
+  cosco-consumer:
+    build:
+      context: .
+      dockerfile: docker/cosco.Dockerfile
