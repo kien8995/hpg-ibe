@@ -2,8 +2,8 @@
 
 set -e
 
-print "### docker rebuilding...\n"
+echo "### docker rebuilding..."
 docker-compose up --force-recreate --build -d
 
-print "### docker image pruning...\n"
+echo "### docker image pruning..."
 docker image prune -f
