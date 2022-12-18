@@ -1,18 +1,18 @@
 version: '3'
 services:
-  maersk-consumer:
-    build:
-      context: .
-      dockerfile: docker/maersk.Dockerfile
-  msc-consumer:
-    build:
-      context: .
-      dockerfile: docker/msc.Dockerfile
-  oocl-consumer:
-    build:
-      context: .
-      dockerfile: docker/oocl.Dockerfile
-  cosco-consumer:
-    build:
-      context: .
-      dockerfile: docker/cosco.Dockerfile
+    maersk-consumer:
+        build:
+            context: .
+            dockerfile: docker/maersk.Dockerfile
+    msc-consumer:
+        build:
+            context: .
+            dockerfile: docker/msc.Dockerfile
+    oocl-consumer:
+        build:
+            context: .
+            dockerfile: docker/oocl.Dockerfile
+    cosco-consumer:
+        build:
+            context: .
+            dockerfile: docker/cosco.Dockerfile
