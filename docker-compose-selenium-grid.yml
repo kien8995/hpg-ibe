@@ -5,6 +5,8 @@ services:
     container_name: selenium-hub
     ports:
       - "4444:4444"
+    environment:
+      - SE_HUB_HOST=45.119.80.22
 
   chrome:
     image: selenium/node-chrome:3.141.59-20210929
