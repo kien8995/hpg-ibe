@@ -1,0 +1,24 @@
+version: '3.4'
+services: 
+  selenium_hub:
+    image: selenium/hub:3.141.59-20200525
+    container_name: selenium-hub
+    privileged: true
+    ports:
+      - '4444:4444'
+    network_mode: host 
+    pid: "host"
+
+  chrome:
+    image: selenium/node-chrome-debug:3.141.59-20200525
+    network_mode: host 
+    volumes:
+      - /dev/shm:/dev/shm
+    privileged: true
+    depends_on:
+      - selenium_hub
+    environment:
+      - START_XVFB=true
+      - HUB_HOST=localhost
+      - HUB_PORT=4444
+    pid: "host"
