@@ -1,13 +1,13 @@
 """
     cosco's schedule function
 """
+from typing import Any
 import requests
 
 from modules.cosco.request import ScheduleRequest
-from modules.cosco.response import ScheduleResponse
 
 
-def search_schedules(schedule_request: ScheduleRequest) -> ScheduleResponse:
+def search_schedules(schedule_request: ScheduleRequest) -> Any:
     """search schedule
 
     Args:
@@ -35,11 +35,12 @@ def search_schedules(schedule_request: ScheduleRequest) -> ScheduleResponse:
         timeout=10
     )
 
-    result = ScheduleResponse()
+    # result = ScheduleResponse()
     if response.status_code == 200:
-        result = ScheduleResponse.of(response.text)
+        # result = ScheduleResponse.of(response.text)
+        return response.json()
 
-    return result
+    return '{}'
 
 
 if __name__ == '__main__':
