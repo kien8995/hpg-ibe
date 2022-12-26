@@ -42,8 +42,21 @@ def search_schedules(schedule_request: ScheduleRequest) -> ScheduleResponse:
     )
 
     result = ScheduleResponse()
-    if response.status_code == 200:
+    if response.status_code == 200 and response.json()['products']:
         result = ScheduleResponse.of(response.text)
+        return result
+
+    response = requests.request(
+        'GET',
+        'https://api.maersk.com/oceanProducts/mcpu/futureschedules',
+        headers=headers,
+        params=params,
+        timeout=10
+    )
+
+    if response.status_code == 200 and response.json()['products']:
+        result = ScheduleResponse.of(response.text)
+        return result
 
     return result
 

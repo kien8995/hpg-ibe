@@ -58,8 +58,10 @@ class Location:
         location.maersk_geo_location_id = location_detail.maerskGeoLocationId
         location.maersk_rkst_code = location_detail.maerskRkstCode
         location.maersk_rkts_code = location_detail.maerskRktsCode
-        location.region_code = location_detail.regionCode
-        location.region_name = location_detail.regionName
+        if hasattr(location_detail, 'regionCode'):
+            location.region_code = location_detail.regionCode
+        if hasattr(location_detail, 'regionName'):
+            location.region_name = location_detail.regionName
         location.site_name = location_detail.siteName
         location.timezone_id = location_detail.timezoneId
         location.type = location_detail.type
