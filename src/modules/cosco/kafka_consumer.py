@@ -3,7 +3,6 @@
 """
 import json
 import sys
-import jsonpickle
 
 from kafka import KafkaConsumer
 
@@ -73,10 +72,10 @@ def subscribe(consumer: KafkaConsumer):
                     schedule_request.destination_city = data.arr
 
                     schedules = search_schedules(schedule_request)
-                    schedule_output = _map_schedules_to_output(schedules)
+                    # schedule_output = _map_schedules_to_output(schedules)
 
-                    schedules_json = jsonpickle.encode(schedule_output, unpicklable=False)
-                    schedules_json_str = json.dumps(schedules_json)
+                    # schedules_json = jsonpickle.encode(schedule_output, unpicklable=False)
+                    schedules_json_str = json.dumps(schedules)
                     # print(schedules_json_str)
 
                     publish_to_result(key, schedules_json_str)

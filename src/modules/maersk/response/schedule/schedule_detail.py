@@ -34,7 +34,8 @@ class ScheduleDetail:
         schedule_detail.carrier_code = data.carrierCode
         schedule_detail.routing_type = data.routingType
         schedule_detail.service_code = data.serviceCode
-        schedule_detail.service_name = data.serviceName
+        if hasattr(data, 'serviceName'):
+            schedule_detail.service_name = data.serviceName
         schedule_detail.from_location = Location.of(data.fromLocation)
         schedule_detail.to_location = Location.of(data.toLocation)
         schedule_detail.transport = Transport.of(data.transport)
