@@ -1,6 +1,6 @@
 version: '3'
 services:
-  chrome:
+  firefox:
     image: selenium/standalone-firefox
     ports:
       - "9515:9515"
