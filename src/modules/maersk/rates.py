@@ -1,3 +1,6 @@
+import json
+import time
+
 from selenium.webdriver import DesiredCapabilities
 from seleniumwire import webdriver
 
@@ -9,27 +12,28 @@ chrome_options.add_argument('--ignore-ssl-errors')
 # chrome_options.add_argument('--proxy-server=45.119.80.22:8087')
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument('--ignore-certificate-errors')
-chrome_options.add_argument('--remote-debugging-port=9222')
+chrome_options.add_argument('--no-proxy-server')
+# chrome_options.add_argument('--remote-debugging-port=9222')
 # chrome_options.add_argument("--proxy-server={}".format('host.docker.internal:8098'))
 
-chrome_capabilities = {
-    "browserName": "chrome",
-    "version": "",
-    "platform": "ANY",
-    "javascriptEnabled": True,
-    'applicationName': 'test1'
-}
-
-fireFoxOptions = webdriver.FirefoxOptions()
-fireFoxOptions.headless = True
-
-seleniumwire_options = {
-    'proxy': {
-        'http': 'http://root:Se@r@t3vn@45.119.80.22:46711',
-        'https': 'https://root:Se@r@t3vn@45.119.80.22:46711',
-        'no_proxy': 'localhost,127.0.0.1'
-    }
-}
+# chrome_capabilities = {
+#     "browserName": "chrome",
+#     "version": "",
+#     "platform": "ANY",
+#     "javascriptEnabled": True,
+#     'applicationName': 'test1'
+# }
+# 
+# fireFoxOptions = webdriver.FirefoxOptions()
+# fireFoxOptions.headless = True
+# 
+# seleniumwire_options = {
+#     'proxy': {
+#         'http': 'http://root:Se@r@t3vn@45.119.80.22:46711',
+#         'https': 'https://root:Se@r@t3vn@45.119.80.22:46711',
+#         'no_proxy': 'localhost,127.0.0.1'
+#     }
+# }
 
 # def start_browser():
 #     # Ensure mobile-friendly view for parsing
@@ -59,16 +63,16 @@ seleniumwire_options = {
 # profile = webdriver.FirefoxProfile()
 # profile.set_preference("general.useragent.override", useragent)
 
-PROXY = "45.119.80.22:55466"
-webdriver.DesiredCapabilities.CHROME['proxy'] = {
-    "httpProxy": PROXY,
-    "ftpProxy": PROXY,
-    "sslProxy": PROXY,
-    "proxyType": "MANUAL",
-
-}
-
-webdriver.DesiredCapabilities.CHROME['acceptSslCerts'] = True
+# PROXY = "45.119.80.22:55466"
+# webdriver.DesiredCapabilities.CHROME['proxy'] = {
+#     "httpProxy": PROXY,
+#     "ftpProxy": PROXY,
+#     "sslProxy": PROXY,
+#     "proxyType": "MANUAL",
+# 
+# }
+# 
+# webdriver.DesiredCapabilities.CHROME['acceptSslCerts'] = True
 
 # driver = webdriver.Remote(
 #     command_executor="http://45.119.80.22:4444",
@@ -82,20 +86,36 @@ webdriver.DesiredCapabilities.CHROME['acceptSslCerts'] = True
 #         "moz:debuggerAddress": True
 #     },
 # 
-
-firefox_options = webdriver.FirefoxOptions()
-firefox_options.log.level = "trace"
-firefox_options.binary_location = "/usr/bin/firefox"
-firefox_options.add_argument("--headless")
 # 
-driver = webdriver.Remote(
-    desired_capabilities=DesiredCapabilities.CHROME,
-    command_executor="http://45.119.80.22:9515",
-    options=chrome_options
-)
+firefox_options = webdriver.FirefoxOptions()
+firefox_options.add_argument("--headless")
+firefox_options.add_argument('--disable-blink-features=AutomationControlled')
+# Create a webdriver.DesiredCapabilities object
+capabilities = webdriver.DesiredCapabilities.FIREFOX.copy()
 
+# Set the accept_insecure_certs capability to True
+capabilities['accept_insecure_certs'] = True
 
-driver.get("https://www.w3coded.com")
+# 
+# profile = webdriver.FirefoxProfile()
+# profile.set_preference('network.proxy.Kind', 'Direct')
+# profile.set_preference("network.proxy.type", 0)
+
+# driver = webdriver.Remote(
+#     desired_capabilities={
+#         "browserName": "firefox",
+#         "acceptInsecureCerts": True,
+#         "moz:debuggerAddress": True,
+#         "proxy": None
+#     },
+#     command_executor="http://45.119.80.22:4444/wd/hub",
+#     options=firefox_options
+# )
+
+print("initialize web driver...")
+driver = webdriver.Firefox(options=firefox_options, capabilities=capabilities)
+
+driver.get("http://info.cern.ch")
 
 ##  Print request headers
 for request in driver.requests:
